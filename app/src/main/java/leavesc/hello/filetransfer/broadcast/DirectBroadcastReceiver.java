@@ -85,10 +85,10 @@ public class DirectBroadcastReceiver extends BroadcastReceiver {
                                 mDirectActionListener.onConnectionInfoAvailable(info);
                             }
                         });
-                        Log.e(TAG, "已连接p2p设备");
+                        Log.e(TAG, "P2P device connected");
                     } else {
                         mDirectActionListener.onDisconnection();
-                        Log.e(TAG, "与p2p设备已断开连接");
+                        Log.e(TAG, "P2P device disconnected");
                     }
                     break;
                 }

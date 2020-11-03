@@ -14,11 +14,7 @@ import java.util.List;
 import leavesc.hello.filetransfer.MainActivity;
 import leavesc.hello.filetransfer.R;
 
-/**
- * 作者：leavesC
- * 时间：2019/11/23 11:56
- * 描述：
- */
+
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder> {
 
     private List<WifiP2pDevice> wifiP2pDeviceList;

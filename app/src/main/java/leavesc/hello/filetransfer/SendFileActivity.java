@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.zhihu.matisse.BuildConfig;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
@@ -77,17 +78,17 @@ public class SendFileActivity extends BaseActivity {
             Log.e(TAG, "onConnectionInfoAvailable getHostAddress: " + wifiP2pInfo.groupOwnerAddress.getHostAddress());
             StringBuilder stringBuilder = new StringBuilder();
             if (mWifiP2pDevice != null) {
-                stringBuilder.append("连接的设备名：");
+                stringBuilder.append("Name of connected device：");
                 stringBuilder.append(mWifiP2pDevice.deviceName);
                 stringBuilder.append("\n");
-                stringBuilder.append("连接的设备的地址：");
+                stringBuilder.append("Address of connected device：");
                 stringBuilder.append(mWifiP2pDevice.deviceAddress);
             }
             stringBuilder.append("\n");
-            stringBuilder.append("是否群主：");
-            stringBuilder.append(wifiP2pInfo.isGroupOwner ? "是群主" : "非群主");
+            stringBuilder.append("Is Owner：");
+            stringBuilder.append(wifiP2pInfo.isGroupOwner ? "Owner" : "Not a owner");
             stringBuilder.append("\n");
-            stringBuilder.append("群主IP地址：");
+            stringBuilder.append("group owner IP address：");
             stringBuilder.append(wifiP2pInfo.groupOwnerAddress.getHostAddress());
             tv_status.setText(stringBuilder);
             if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
@@ -100,7 +101,7 @@ public class SendFileActivity extends BaseActivity {
             Log.e(TAG, "onDisconnection");
             btn_disconnect.setEnabled(false);
             btn_chooseFile.setEnabled(false);
-            showToast("处于非连接状态");
+            showToast("Not connected");
             wifiP2pDeviceList.clear();
             deviceAdapter.notifyDataSetChanged();
             tv_status.setText(null);
@@ -192,7 +193,7 @@ public class SendFileActivity extends BaseActivity {
     }
 
     private void initView() {
-        setTitle("发送文件");
+        setTitle("Send File");
         tv_myDeviceName = findViewById(R.id.tv_myDeviceName);
         tv_myDeviceAddress = findViewById(R.id.tv_myDeviceAddress);
         tv_myDeviceStatus = findViewById(R.id.tv_myDeviceStatus);
@@ -230,7 +231,7 @@ public class SendFileActivity extends BaseActivity {
             List<String> strings = Matisse.obtainPathResult(data);
             if (strings != null && !strings.isEmpty()) {
                 String path = strings.get(0);
-                Log.e(TAG, "文件路径：" + path);
+                Log.e(TAG, "File path：" + path);
                 File file = new File(path);
                 if (file.exists() && wifiP2pInfo != null) {
                     FileTransfer fileTransfer = new FileTransfer(file.getPath(), file.length());
@@ -245,7 +246,7 @@ public class SendFileActivity extends BaseActivity {
         if (config.deviceAddress != null && mWifiP2pDevice != null) {
             config.deviceAddress = mWifiP2pDevice.deviceAddress;
             config.wps.setup = WpsInfo.PBC;
-            showLoadingDialog("正在连接 " + mWifiP2pDevice.deviceName);
+            showLoadingDialog("Connecting " + mWifiP2pDevice.deviceName);
             wifiP2pManager.connect(channel, config, new WifiP2pManager.ActionListener() {
                 @Override
                 public void onSuccess() {
@@ -254,7 +255,7 @@ public class SendFileActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(int reason) {
-                    showToast("连接失败 " + reason);
+                    showToast("Connection failed " + reason);
                     dismissLoadingDialog();
                 }
             });
@@ -291,16 +292,16 @@ public class SendFileActivity extends BaseActivity {
                 if (wifiP2pManager != null && channel != null) {
                     startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
                 } else {
-                    showToast("当前设备不支持Wifi Direct");
+                    showToast("This device does not support Wifi Direct");
                 }
                 return true;
             }
             case R.id.menuDirectDiscover: {
                 if (!wifiP2pEnabled) {
-                    showToast("需要先打开Wifi");
+                    showToast("Turn On Wifi");
                     return true;
                 }
-                loadingDialog.show("正在搜索附近设备", true, false);
+                loadingDialog.show("Searching for near by devices", true, false);
                 wifiP2pDeviceList.clear();
                 deviceAdapter.notifyDataSetChanged();
                 //搜寻附近带有 Wi-Fi P2P 的设备

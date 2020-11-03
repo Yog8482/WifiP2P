@@ -39,7 +39,7 @@ public class WifiClientTask extends AsyncTask<String, Integer, Boolean> {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setTitle("正在发送文件");
+        progressDialog.setTitle("Sending file");
         progressDialog.setMax(100);
     }
 
@@ -51,7 +51,7 @@ public class WifiClientTask extends AsyncTask<String, Integer, Boolean> {
     @Override
     protected Boolean doInBackground(String... strings) {
         fileTransfer.setMd5(Md5Util.getMd5(new File(fileTransfer.getFilePath())));
-        Log.e(TAG, "文件的MD5码值是：" + fileTransfer.getMd5());
+        Log.e(TAG, "MD5 code of file ：" + fileTransfer.getMd5());
         Socket socket = null;
         OutputStream outputStream = null;
         ObjectOutputStream objectOutputStream = null;
@@ -73,7 +73,7 @@ public class WifiClientTask extends AsyncTask<String, Integer, Boolean> {
                 total += len;
                 int progress = (int) ((total * 100) / fileSize);
                 publishProgress(progress);
-                Log.e(TAG, "文件发送进度：" + progress);
+                Log.e(TAG, "Progress：" + progress);
             }
             socket.close();
             inputStream.close();
@@ -83,10 +83,10 @@ public class WifiClientTask extends AsyncTask<String, Integer, Boolean> {
             inputStream = null;
             outputStream = null;
             objectOutputStream = null;
-            Log.e(TAG, "文件发送成功");
+            Log.e(TAG, "File Sent successfully");
             return true;
         } catch (Exception e) {
-            Log.e(TAG, "文件发送异常 Exception: " + e.getMessage());
+            Log.e(TAG, "File send Exception: " + e.getMessage());
         } finally {
             if (socket != null && !socket.isClosed()) {
                 try {

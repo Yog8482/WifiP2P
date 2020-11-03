@@ -35,10 +35,10 @@ public class WifiServerService extends IntentService {
 
     public interface OnProgressChangListener {
 
-        //当传输进度发生变化时
+        //progrss change
         void onProgressChanged(FileTransfer fileTransfer, int progress);
 
-        //当传输结束时
+        //transfer completed
         void onTransferFinished(File file);
 
     }
@@ -78,11 +78,11 @@ public class WifiServerService extends IntentService {
             serverSocket.setReuseAddress(true);
             serverSocket.bind(new InetSocketAddress(Constants.PORT));
             Socket client = serverSocket.accept();
-            Log.e(TAG, "客户端IP地址 : " + client.getInetAddress().getHostAddress());
+            Log.e(TAG, "Client Ip address : " + client.getInetAddress().getHostAddress());
             inputStream = client.getInputStream();
             objectInputStream = new ObjectInputStream(inputStream);
             FileTransfer fileTransfer = (FileTransfer) objectInputStream.readObject();
-            Log.e(TAG, "待接收的文件: " + fileTransfer);
+            Log.e(TAG, "File to be received: " + fileTransfer);
             String name = new File(fileTransfer.getFilePath()).getName();
             //将文件存储至指定位置
             file = new File(Environment.getExternalStorageDirectory() + "/" + name);
@@ -95,7 +95,7 @@ public class WifiServerService extends IntentService {
                 fileOutputStream.write(buf, 0, len);
                 total += len;
                 progress = (int) ((total * 100) / fileTransfer.getFileLength());
-                Log.e(TAG, "文件接收进度: " + progress);
+                Log.e(TAG, "File Receive progress: " + progress);
                 if (progressChangListener != null) {
                     progressChangListener.onProgressChanged(fileTransfer, progress);
                 }
@@ -108,9 +108,9 @@ public class WifiServerService extends IntentService {
             inputStream = null;
             objectInputStream = null;
             fileOutputStream = null;
-            Log.e(TAG, "文件接收成功，文件的MD5码是：" + Md5Util.getMd5(file));
+            Log.e(TAG, "File received success，MD5 of file：" + Md5Util.getMd5(file));
         } catch (Exception e) {
-            Log.e(TAG, "文件接收 Exception: " + e.getMessage());
+            Log.e(TAG, "File receive Exception: " + e.getMessage());
         } finally {
             clean();
             if (progressChangListener != null) {

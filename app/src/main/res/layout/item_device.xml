@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="16sp"
-            tools:text="可用的" />
+            tools:text="Available" />
 
     </LinearLayout>
 

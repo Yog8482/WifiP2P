@@ -39,8 +39,8 @@ public class MessageDialog extends DialogFragment {
         this.cancelable = cancelable;
         this.positiveCallback = positiveCallback;
         this.negativeCallback = negativeCallback;
-        this.positiveText = "确认";
-        this.negativeText = "取消";
+        this.positiveText = "Confirm";
+        this.negativeText = "Cancel";
         show(fragmentManager, "MessageDialog");
     }
 
@@ -62,7 +62,7 @@ public class MessageDialog extends DialogFragment {
         this.message = message;
         this.positiveCallback = positiveCallback;
         this.cancelable = false;
-        this.positiveText = "确认";
+        this.positiveText = "Confirm";
         show(fragmentManager, "MessageDialog");
     }
 
@@ -79,10 +79,10 @@ public class MessageDialog extends DialogFragment {
         }
         builder.setCancelable(cancelable);
         if (positiveText != null) {
-            builder.setPositiveButton("确定", positiveCallback);
+            builder.setPositiveButton("Check", positiveCallback);
         }
         if (negativeText != null) {
-            builder.setNegativeButton("取消", negativeCallback);
+            builder.setNegativeButton("Cancel", negativeCallback);
         }
         return builder.create();
     }

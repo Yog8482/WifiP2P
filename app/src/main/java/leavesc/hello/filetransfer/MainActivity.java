@@ -41,12 +41,12 @@ public class MainActivity extends BaseActivity {
         if (requestCode == CODE_REQ_PERMISSIONS) {
             for (int i = 0; i < grantResults.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    showToast("缺少权限，请先授予权限");
+                    showToast("Permission needed，Please grant permission");
                     showToast(permissions[i]);
                     return;
                 }
             }
-            showToast("已获得权限");
+            showToast("Permission Granted");
         }
     }
 
@@ -60,17 +60,17 @@ public class MainActivity extends BaseActivity {
     public static String getDeviceStatus(int deviceStatus) {
         switch (deviceStatus) {
             case WifiP2pDevice.AVAILABLE:
-                return "可用的";
+                return "Available";
             case WifiP2pDevice.INVITED:
-                return "邀请中";
+                return "Inviting";
             case WifiP2pDevice.CONNECTED:
-                return "已连接";
+                return "Connected";
             case WifiP2pDevice.FAILED:
-                return "失败的";
+                return "Failed";
             case WifiP2pDevice.UNAVAILABLE:
-                return "不可用的";
+                return "Unavailable";
             default:
-                return "未知";
+                return "Unknown";
         }
     }
 
